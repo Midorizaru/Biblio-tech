@@ -16,17 +16,16 @@ export default function QuickSearch() {
   }
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Search a book..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-
-      <button onClick={doTheSearch}>
-        Search
-      </button>
+    <div className="header">
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Search a book..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <button onClick={doTheSearch}>Search</button>
+      </div>
     </div>
   );
 }
