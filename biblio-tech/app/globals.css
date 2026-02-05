@@ -87,3 +87,18 @@ body {
   line-height: 1.6;
 }
 
+
+.wiki {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid #ddd;
+}
+
+.wiki h2 {
+  margin-bottom: 8px;
+}
+
+.wiki a {
+  color: blue;
+  text-decoration: underline;
+}
