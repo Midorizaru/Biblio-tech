@@ -20,9 +20,24 @@ export default function QuickSearch() {
     fetch("https://openlibrary.org/search.json?q=" + search)
       .then((response) => response.json())
       .then((data) => {
-        setResults(data.docs.slice(0, 5));
+        const uniqueResults = removeDuplicatesByKey(data.docs);
+        setResults(uniqueResults.slice(0, 5));
       });
   }, [search]);
+
+  function removeDuplicatesByKey(list: any[]) {
+    const seen = new Set();
+    const result = [];
+
+    for (let item of list) {
+      if (!seen.has(item.key)) {
+        seen.add(item.key);
+        result.push(item);
+      }
+    }
+
+    return result;
+  }
 
   function handleInputChange(e: any) {
     setSearch(e.target.value);

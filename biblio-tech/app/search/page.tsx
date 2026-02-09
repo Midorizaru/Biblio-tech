@@ -1,40 +1,66 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export default function QuickSearch() {
-    const searchParams = useSearchParams();
-    const query = searchParams.get("q");
+type HomeBook = {
+  id: string;
+  title: string;
+};
 
-    const [books, setBooks] = useState<any[]>([]);
+export default function Home() {
+  const [books, setBooks] = useState<HomeBook[]>([]);
 
-    useEffect(() => {
-        if (!query) {
-            return;
+  useEffect(() => {
+    fetch("https://openlibrary.org/search.json?sort=new&limit=12")
+      .then((res) => res.json())
+      .then((data) => {
+        const result: HomeBook[] = [];
+
+        for (let book of data.docs) {
+          if (book.key && book.title) {
+            result.push({
+              id: book.key.replace("/works/", ""),
+              title: book.title,
+            });
+          }
         }
 
-        fetch("https://openlibrary.org/search.json?q=" + query)
-            .then((response) => response.json())
-            .then((data) => {
-                setBooks(data.docs);
-            });
-    }, [query]);
+        setBooks(result);
+      });
+  }, []);
 
-    return (
-        <div className="container">
-            <h1>Results for "{query}"</h1>
+  return (
+    <div className="container">
+      <h1>Recently added books</h1>
 
-            {books.map((book) => (
-                <div key={book.key} className="book-card">
-                    <h2>{book.title}</h2>
+      <div className="home-grid">
+        {books.map((book) => {
+          const coverUrl =
+            "https://covers.openlibrary.org/b/olid/" +
+            book.id +
+            "-M.jpg";
 
-                    <Link href={"/book/" + book.key.replace("/works/", "")}>
-                        See details
-                    </Link>
-                </div>
-            ))}
-        </div>
-    );
+          return (
+            <div key={book.id} className="home-card">
+              <img
+                src={coverUrl}
+                alt="Book cover"
+                className="home-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = "none";
+                }}
+              />
+
+              <h2 className="home-title">{book.title}</h2>
+
+              <Link href={"/book/" + book.id}>
+                See details
+              </Link>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }

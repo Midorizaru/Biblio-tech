@@ -95,6 +95,38 @@ body {
   opacity: 0.7;
 }
 
+/* partie page d'accueil */
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+.home-card {
+  border: 1px solid #ddd;
+  padding: 12px;
+  background: white;
+  text-align: center;
+}
+
+.home-cover {
+  width: 100%;
+  height: auto;
+  margin-bottom: 8px;
+}
+
+.home-title {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.home-date {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
 /* partie advanced search */
 
 .advanced-search {
@@ -114,6 +146,24 @@ body {
   font-size: 16px;
   cursor: pointer;
 }
+
+.book-card-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.book-card-cover {
+  width: 40px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.book-card-text h2 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+}
+
 
 /* description générale */
 
@@ -218,5 +268,31 @@ body {
 }
 
 .search-result-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* auto-complete de l'advance search */
+
+.autocomplete-field {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.autocomplete-list {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  z-index: 10;
+}
+
+.autocomplete-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.autocomplete-item:hover {
   background-color: #f0f0f0;
 }
