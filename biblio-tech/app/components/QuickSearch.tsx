@@ -25,12 +25,12 @@ export default function QuickSearch() {
       });
   }, [search]);
 
-  function removeDuplicatesByKey(list: any[]) {
+  function removeDuplicatesByKey(list: any[] = []) {
     const seen = new Set();
     const result = [];
 
     for (let item of list) {
-      if (!seen.has(item.key)) {
+      if (item.key && !seen.has(item.key)) {
         seen.add(item.key);
         result.push(item);
       }
