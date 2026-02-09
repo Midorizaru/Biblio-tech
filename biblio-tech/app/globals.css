@@ -1,8 +1,6 @@
 @import "tailwindcss";
 
-/* =======================
-   VARIABLES & BASE
-======================= */
+/* les basiques */
 
 :root {
   --bg: #ffffff;
@@ -28,9 +26,7 @@ button {
   font-size: 16px;
 }
 
-/* =======================
-   LAYOUT
-======================= */
+/* le layout général */
 
 .container {
   max-width: 900px;
@@ -39,9 +35,7 @@ button {
   background: var(--bg);
 }
 
-/* =======================
-   HEADER
-======================= */
+/* header */
 
 .header {
   background: var(--bg);
@@ -82,9 +76,7 @@ button {
   background: var(--hover);
 }
 
-/* =======================
-   SEARCH (COMMON)
-======================= */
+/* recherche */
 
 input {
   padding: 8px;
@@ -143,9 +135,7 @@ input {
   flex-shrink: 0;
 }
 
-/* =======================
-   HOME
-======================= */
+/* page d'accueil */
 
 .home-grid {
   display: grid;
@@ -174,9 +164,7 @@ input {
   margin-bottom: 8px;
 }
 
-/* =======================
-   ADVANCED SEARCH
-======================= */
+/* recherche avancée */
 
 .advanced-search {
   display: flex;
@@ -200,9 +188,7 @@ input {
   font-size: 18px;
 }
 
-/* =======================
-   BOOK PAGE
-======================= */
+/* page détaillée */
 
 .book-title {
   font-size: 28px;
@@ -220,9 +206,7 @@ input {
   margin-top: 16px;
 }
 
-/* =======================
-   WIKIPEDIA
-======================= */
+/* partie wikipedia */
 
 .wiki {
   margin-top: 32px;
