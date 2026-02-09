@@ -51,12 +51,11 @@ h1, h2, h3 {
 }
 
 .site-title {
+  margin: 0;
   font-size: 22px;
   font-weight: bold;
   color: #EDF4ED;
-  margin: 0;
   white-space: nowrap;
-  letter-spacing: 1px;
 }
 
 /* barre de recherche rapide */
