@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import QuickSearch from "../../app/components/QuickSearch";
+import QuickSearch from "../components/QuickSearch";
 
 test("search input is displayed", () => {
   render(<QuickSearch />);
