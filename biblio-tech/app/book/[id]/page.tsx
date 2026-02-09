@@ -1,65 +1,132 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
-export default function BookPage({ params }: any) {
-    const [book, setBook] = useState<any>(null);
-    const [wiki, setWiki] = useState<any>(null);
+export default function BookPage() {
+  const params = useParams();
+  const id = params.id as string;
 
-    useEffect(() => {
-        fetch("https://openlibrary.org" + params.id + ".json")
-            .then((response) => response.json())
-            .then((data) => {
-                setBook(data);
-            });
-    }, [params.id]);
+  const [book, setBook] = useState<any>(null);
+  const [wiki, setWiki] = useState<any>(null);
 
-    useEffect(() => {
-        if (!book || !book.title) {
-            return;
-        }
+  useEffect(() => {
+    fetch("https://openlibrary.org/works/" + id + ".json")
+      .then((response) => response.json())
+      .then((data) => {
+        setBook(data);
+      });
+  }, [id]);
 
-        fetch(
-            "https://en.wikipedia.org/api/rest_v1/page/summary/" +
-            encodeURIComponent(book.title)
-        )
-            .then((response) => response.json())
-            .then((data) => {
-                if (!data.title || data.type === "disambiguation") {
-                    return;
-                }
-
-                setWiki(data);
-            });
-    }, [book]);
-
+  useEffect(() => {
     if (book === null) {
-        return <p>Loading...</p>;
+      return;
     }
 
-    return (
-        <div className="container">
-            <h1 className="book-title">{book.title}</h1>
+    if (!book.title) {
+      return;
+    }
 
-            {book.description && (
-                <p className="book-description">
-                    {typeof book.description === "string"
-                        ? book.description
-                        : book.description.value}
-                </p>
-            )}
+    fetch(
+      "https://en.wikipedia.org/api/rest_v1/page/summary/" +
+        encodeURIComponent(book.title)
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.type === "disambiguation") {
+          return;
+        }
 
-            {wiki && (
-                <div className="wiki">
-                    <h2>Wikipedia</h2>
+        setWiki(data);
+      });
+  }, [book]);
 
-                    <p>{wiki.extract}</p>
+  if (book === null) {
+    return <p>Loading...</p>;
+  }
 
-                    <a href={wiki.content_urls.desktop.page} target="_blank">
-                        Read more on Wikipedia
-                    </a>
-                </div>
-            )}
-        </div>
+  let cover = null;
+  if (book.covers && book.covers.length > 0) {
+    cover = (
+      <img
+        className="book-cover"
+        src={
+          "https://covers.openlibrary.org/b/id/" +
+          book.covers[0] +
+          "-L.jpg"
+        }
+        alt="Book cover"
+      />
     );
+  }
+
+  let subjects = null;
+  if (book.subjects && book.subjects.length > 0) {
+    subjects = (
+      <p>
+        <strong>Department:</strong>{" "}
+        {book.subjects.slice(0, 3).join(", ")}
+      </p>
+    );
+  }
+
+  let publishDate = null;
+  if (book.first_publish_date) {
+    publishDate = (
+      <p>
+        <strong>First published:</strong> {book.first_publish_date}
+      </p>
+    );
+  }
+
+  let description = null;
+  if (book.description) {
+    description = (
+      <p className="book-description">
+        {typeof book.description === "string"
+          ? book.description
+          : book.description.value}
+      </p>
+    );
+  }
+
+  let wikiSection = null;
+  if (wiki !== null) {
+    let wikiImage = null;
+
+    if (wiki.thumbnail && wiki.thumbnail.source) {
+      wikiImage = (
+        <img
+          className="wiki-cover"
+          src={wiki.thumbnail.source}
+          alt="Wikipedia illustration"
+        />
+      );
+    }
+
+    wikiSection = (
+      <div className="wiki">
+        <h2>Wikipedia</h2>
+        {wikiImage}
+        <p>{wiki.extract}</p>
+        <a href={wiki.content_urls.desktop.page} target="_blank">
+          Read more on Wikipedia
+        </a>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container">
+      {cover}
+
+      <h1 className="book-title">{book.title}</h1>
+
+      {publishDate}
+      {subjects}
+      {description}
+
+      {wikiSection}
+    </div>
+  );
 }

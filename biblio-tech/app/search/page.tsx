@@ -30,7 +30,7 @@ export default function QuickSearch() {
                 <div key={book.key} className="book-card">
                     <h2>{book.title}</h2>
 
-                    <Link href={"/book" + book.key}>
+                    <Link href={"/book/" + book.key.replace("/works/", "")}>
                         See details
                     </Link>
                 </div>

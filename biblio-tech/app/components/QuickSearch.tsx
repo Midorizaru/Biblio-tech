@@ -1,31 +1,111 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function QuickSearch() {
   const [search, setSearch] = useState("");
+  const [results, setResults] = useState<any[]>([]);
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const router = useRouter();
+
+  useEffect(() => {
+    if (search.length < 2) {
+      setResults([]);
+      return;
+    }
+
+    fetch("https://openlibrary.org/search.json?q=" + search)
+      .then((response) => response.json())
+      .then((data) => {
+        setResults(data.docs.slice(0, 5));
+      });
+  }, [search]);
+
+  function handleInputChange(e: any) {
+    setSearch(e.target.value);
+  }
 
   function doTheSearch() {
     if (search === "") {
       return;
     }
-
     router.push("/search?q=" + search);
+    setResults([]);
+  }
+
+  function toggleMenu() {
+    setMenuOpen(!menuOpen);
   }
 
   return (
     <div className="header">
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search a book..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <button onClick={doTheSearch}>Search</button>
+      <div className="header-content">
+        <button className="menu-button" onClick={toggleMenu}>
+          ☰
+        </button>
+
+        <div className="search-wrapper">
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="Search a book..."
+              value={search}
+              onChange={handleInputChange}
+            />
+            <button onClick={doTheSearch}>Search</button>
+          </div>
+
+          {results.length > 0 && (
+            <div className="search-results">
+              {results.map((book) => {
+                let cover = null;
+
+                if (book.cover_i) {
+                  cover = (
+                    <img
+                      className="search-result-cover"
+                      src={
+                        "https://covers.openlibrary.org/b/id/" +
+                        book.cover_i +
+                        "-S.jpg"
+                      }
+                      alt="Book cover"
+                    />
+                  );
+                }
+
+                return (
+                  <Link
+                    key={book.key}
+                    href={"/book/" + book.key.replace("/works/", "")}
+                    className="search-result-item"
+                    onClick={() => setResults([])}
+                  >
+                    {cover}
+                    <span className="search-result-title">
+                      {book.title}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
+
+      {menuOpen && (
+        <div className="menu">
+          <Link href="/" onClick={() => setMenuOpen(false)}>
+            Home
+          </Link>
+          <Link href="/advanced-search" onClick={() => setMenuOpen(false)}>
+            Advanced search
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
