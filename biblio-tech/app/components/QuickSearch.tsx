@@ -72,6 +72,7 @@ export default function QuickSearch() {
             />
             <button onClick={doTheSearch}>Search</button>
           </div>
+          <h1 className="site-title">Biblio-Tech</h1>
 
           {results.length > 0 && (
             <div className="search-results">
