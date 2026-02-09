@@ -90,21 +90,24 @@ export default function Home() {
 
       <div className="home-grid">
         {books.map((book) => (
-          <div key={book.key} className="home-card">
-            <img
-              src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}
-              alt="Book cover"
-              className="home-cover"
-            />
+          <Link
+            key={book.key}
+            href={`/book/${book.key.replace("/works/", "")}`}
+            className="home-card-link"
+          >
+            <div className="home-card">
+              <img
+                src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}
+                alt="Book cover"
+                className="home-cover"
+              />
 
-            <h2 className="home-title">{book.title}</h2>
-
-            <Link href={`/book/${book.key.replace("/works/", "")}`}>
-              See details
-            </Link>
-          </div>
+              <h2 className="home-title">{book.title}</h2>
+            </div>
+          </Link>
         ))}
       </div>
+
 
       {/* ===== SECTION RECENT CHANGES ===== */}
       <h1>Recently updated documents</h1>

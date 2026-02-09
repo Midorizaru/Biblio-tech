@@ -130,6 +130,7 @@ h1, h2, h3 {
 }
 
 .home-card {
+  height: 300px;
   background-color: #ABD1B5;
   border: none;
   border-radius: 6px;
@@ -141,6 +142,13 @@ h1, h2, h3 {
   transform: translateY(-4px);
   box-shadow: 0 6px 16px rgba(0,0,0,0.15);
 }
+
+.home-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
 
 .home-cover {
   width: 100%;
