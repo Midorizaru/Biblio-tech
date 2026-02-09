@@ -1,38 +1,51 @@
 @import "tailwindcss";
 
+/* =======================
+   VARIABLES & BASE
+======================= */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #ffffff;
+  --fg: #222;
+  --border: #ddd;
+  --hover: #f0f0f0;
 }
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-/* body */
 
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #f5f5f5;
-  color: #222;
+  background: #f5f5f5;
+  color: var(--fg);
 }
 
-/* header */
+a {
+  color: blue;
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* =======================
+   LAYOUT
+======================= */
+
+.container {
+  max-width: 900px;
+  margin: 32px auto;
+  padding: 16px;
+  background: var(--bg);
+}
+
+/* =======================
+   HEADER
+======================= */
 
 .header {
-  background-color: #ffffff;
-  border-bottom: 1px solid #ddd;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
   padding: 12px 16px;
 }
 
@@ -44,58 +57,95 @@ body {
   gap: 16px;
 }
 
-/* barre de recherche rapide */
-
-.search-bar {
-  max-width: 500px;
-  margin: 0 auto;
-  display: flex;
-  gap: 8px;
-}
-
-.search-bar input {
-  flex: 1;
-  padding: 8px;
-  font-size: 16px;
-}
-
-.search-bar button {
-  padding: 8px 16px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* menu déroulant */
-
-.menu {
-  background-color: #ffffff;
-  border-top: 1px solid #ddd;
-  padding: 8px 16px;
-}
-
-.menu a {
-  display: block;
-  padding: 8px 0;
-  text-decoration: none;
-  color: #000;
-}
-
-.menu a:hover {
-  background-color: #f0f0f0;
-}
-
 .menu-button {
   font-size: 24px;
   background: none;
   border: none;
-  cursor: pointer;
 }
 
 .menu-button:hover {
   opacity: 0.7;
 }
 
-/* partie page d'accueil */
+.menu {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 8px 16px;
+}
+
+.menu a {
+  display: block;
+  padding: 8px 0;
+}
+
+.menu a:hover {
+  background: var(--hover);
+}
+
+/* =======================
+   SEARCH (COMMON)
+======================= */
+
+input {
+  padding: 8px;
+  font-size: 16px;
+}
+
+.search-bar,
+.search-wrapper {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.search-bar {
+  display: flex;
+  gap: 8px;
+}
+
+.search-wrapper {
+  position: relative;
+}
+
+.search-results,
+.autocomplete-list {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  z-index: 10;
+}
+
+.search-results {
+  top: 42px;
+}
+
+.autocomplete-list {
+  top: 40px;
+}
+
+.search-result-item,
+.autocomplete-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  color: #000;
+}
+
+.search-result-item:hover,
+.autocomplete-item:hover {
+  background: var(--hover);
+}
+
+.search-result-cover {
+  width: 32px;
+  flex-shrink: 0;
+}
+
+/* =======================
+   HOME
+======================= */
 
 .home-grid {
   display: grid;
@@ -103,16 +153,19 @@ body {
   gap: 16px;
 }
 
-.home-card {
-  border: 1px solid #ddd;
+.home-card,
+.book-card {
+  border: 1px solid var(--border);
   padding: 12px;
-  background: white;
+  background: var(--bg);
+}
+
+.home-card {
   text-align: center;
 }
 
 .home-cover {
   width: 100%;
-  height: auto;
   margin-bottom: 8px;
 }
 
@@ -121,13 +174,9 @@ body {
   margin-bottom: 8px;
 }
 
-.home-date {
-  font-size: 12px;
-  color: #666;
-  margin-bottom: 8px;
-}
-
-/* partie advanced search */
+/* =======================
+   ADVANCED SEARCH
+======================= */
 
 .advanced-search {
   display: flex;
@@ -136,69 +185,33 @@ body {
   margin-bottom: 24px;
 }
 
-.advanced-search input {
-  padding: 8px;
-  font-size: 16px;
-}
-
-.advanced-search button {
-  padding: 8px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
 .book-card-content {
   display: flex;
-  align-items: flex-start;
   gap: 12px;
 }
 
 .book-card-cover {
   width: 40px;
-  height: auto;
   flex-shrink: 0;
 }
 
 .book-card-text h2 {
-  margin: 0 0 4px 0;
+  margin: 0 0 4px;
   font-size: 18px;
 }
 
-
-/* description générale */
-
-.container {
-  max-width: 900px;
-  margin: 32px auto;
-  padding: 16px;
-  background-color: #ffffff;
-}
-
-/* description livre */
-
-.book-card {
-  border: 1px solid #ddd;
-  padding: 16px;
-  margin-bottom: 16px;
-}
-
-.book-card h2 {
-  margin: 0 0 8px 0;
-}
-
-.book-card a {
-  color: blue;
-  text-decoration: underline;
-}
-
-.book-cover {
-  display: block;
-  max-width: 200px;
-  margin-bottom: 16px;
-}
+/* =======================
+   BOOK PAGE
+======================= */
 
 .book-title {
   font-size: 28px;
+  margin-bottom: 16px;
+}
+
+.book-cover,
+.wiki-cover {
+  max-width: 200px;
   margin-bottom: 16px;
 }
 
@@ -207,92 +220,16 @@ body {
   margin-top: 16px;
 }
 
-/* description wikipedia */
+/* =======================
+   WIKIPEDIA
+======================= */
 
 .wiki {
   margin-top: 32px;
   padding-top: 16px;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--border);
 }
 
 .wiki h2 {
   margin-bottom: 12px;
-}
-
-.wiki-cover {
-  display: block;
-  max-width: 200px;
-  margin-bottom: 16px;
-}
-
-.wiki a {
-  color: blue;
-  text-decoration: underline;
-}
-
-/* recherche en temps réel */
-
-.search-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 500px;
-}
-
-.search-result-title {
-  font-size: 14px;
-}
-
-.search-results {
-  position: absolute;
-  top: 42px;
-  left: 0;
-  right: 0;
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  z-index: 10;
-}
-
-.search-result-cover {
-  width: 32px;
-  height: auto;
-  flex-shrink: 0;
-}
-
-.search-result-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px;
-  text-decoration: none;
-  color: #000;
-}
-
-.search-result-item:hover {
-  background-color: #f0f0f0;
-}
-
-/* auto-complete de l'advance search */
-
-.autocomplete-field {
-  position: relative;
-  margin-bottom: 12px;
-}
-
-.autocomplete-list {
-  position: absolute;
-  top: 40px;
-  left: 0;
-  right: 0;
-  background: #ffffff;
-  border: 1px solid #ddd;
-  z-index: 10;
-}
-
-.autocomplete-item {
-  padding: 8px;
-  cursor: pointer;
-}
-
-.autocomplete-item:hover {
-  background-color: #f0f0f0;
 }
